@@ -10,17 +10,12 @@ st.set_page_config(page_title="Brain Tumor Detection", page_icon="🧠", layout=
 
 st.title("🧠 Brain Tumor Detection from MRI Images")
 st.write("Upload an MRI image to detect the presence and type of brain tumor.")
-class PatchedGlorotUniform(tf.keras.initializers.GlorotUniform):
-    def __init__(self, seed=None, input_axes=None, output_axes=None, **kwargs):
-        super().__init__(seed=seed)
-
 @st.cache_resource
 def load_model():
     model_path = 'brain_tumor_model.h5'
     if not os.path.exists(model_path):
         return None
-    with tf.keras.utils.custom_object_scope({'GlorotUniform': PatchedGlorotUniform}):
-        return tf.keras.models.load_model(model_path, compile=False)
+    return tf.keras.models.load_model(model_path)
 @st.cache_data
 def load_class_indices():
     class_indices_path = 'class_indices.json'
