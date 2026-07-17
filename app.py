@@ -16,7 +16,25 @@ def load_model():
     model_path = 'brain_tumor_model.h5'
     if not os.path.exists(model_path):
         return None
-    return tf.keras.models.load_model(model_path)
+        
+    # Recreate the exact FUNCTIONAL architecture from train_model.py
+    base_model = tf.keras.applications.MobileNetV2(
+        weights=None, 
+        include_top=False, 
+        input_shape=(224, 224, 3)
+    )
+    
+    x = base_model.output
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dense(128, activation='relu')(x)
+    x = tf.keras.layers.Dropout(0.5)(x)
+    predictions = tf.keras.layers.Dense(4, activation='softmax')(x)
+    
+    model = tf.keras.models.Model(inputs=base_model.input, outputs=predictions)
+    
+    # Load ONLY the weights to bypass all Keras 3 .h5 deserialization bugs
+    model.load_weights(model_path)
+    return model
 
 @st.cache_data
 def load_class_indices():
