@@ -1,4 +1,4 @@
-tensorflow==2.16.1
+tensorflow==2.17.0
 streamlit
 Pillow
 numpy<2.0.0
