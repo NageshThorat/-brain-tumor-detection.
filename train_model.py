@@ -1,7 +1,16 @@
+# /// script
+# dependencies = [
+#     "tensorflow==2.17.0",
+#     "pillow",
+#     "scipy",
+#     "numpy<2.0.0",
+# ]
+# ///
 import os
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
@@ -43,7 +52,7 @@ def train():
 
     # Data augmentation and loading
     datagen = ImageDataGenerator(
-        rescale=1./255,
+        preprocessing_function=preprocess_input,
         validation_split=0.2,
         rotation_range=20,
         width_shift_range=0.2,
@@ -84,8 +93,8 @@ def train():
     )
 
     # Save the model
-    model.save('brain_tumor_model.h5')
-    print("Model saved to 'brain_tumor_model.h5'")
+    model.save('brain_tumor_model.keras')
+    print("Model saved to 'brain_tumor_model.keras'")
 
     # Save class indices
     import json

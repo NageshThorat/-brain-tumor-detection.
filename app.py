@@ -47,8 +47,11 @@ else:
         
         # Preprocess the image
         img = image.resize((224, 224))
-        img_array = np.array(img) / 255.0  # Normalize
+        img_array = np.array(img)
         img_array = np.expand_dims(img_array, axis=0) # Add batch dimension
+        from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+        img_array = preprocess_input(img_array)
+
         
         # Make prediction
         predictions = model.predict(img_array)
