@@ -16,25 +16,7 @@ def load_model():
     model_path = 'brain_tumor_model.h5'
     if not os.path.exists(model_path):
         return None
-    
-    # Recreate the exact architecture from train_model.py
-    base_model = tf.keras.applications.MobileNetV2(
-        weights=None, 
-        include_top=False, 
-        input_shape=(224, 224, 3)
-    )
-    
-    model = tf.keras.models.Sequential([
-        base_model,
-        tf.keras.layers.GlobalAveragePooling2D(),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dropout(0.5),
-        tf.keras.layers.Dense(4, activation='softmax')
-    ])
-    
-    # Load ONLY the weights to bypass the buggy .h5 architecture deserializer
-    model.load_weights(model_path)
-    return model
+    return tf.keras.models.load_model(model_path)
 
 @st.cache_data
 def load_class_indices():
