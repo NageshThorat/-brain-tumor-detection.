@@ -13,7 +13,7 @@ st.write("Upload an MRI image to detect the presence and type of brain tumor.")
 
 @st.cache_resource
 def load_model():
-    model_path = 'brain_tumor_model.h5'
+    model_path = 'brain_tumor_model.keras'
     if not os.path.exists(model_path):
         return None
     return tf.keras.models.load_model(model_path)
