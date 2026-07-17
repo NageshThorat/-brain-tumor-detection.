@@ -1,0 +1,18 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.env/
+venv/
+env/
+
+# Ignore dataset images and zip files
+dataset/
+*.zip
+
+# Ignore large downloaded model files if preferred (uncomment to ignore model)
+# brain_tumor_model.h5
+
+# Ignore raw json files downloaded from API
+papers.json
